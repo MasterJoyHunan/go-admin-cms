@@ -1,0 +1,486 @@
+definitions:
+  request.LoginUser:
+    properties:
+      password:
+        description: 密码
+        example: admin
+        type: string
+      username:
+        description: 用户名
+        example: admin
+        type: string
+      verify_code:
+        description: 验证码
+        example: "9527"
+        type: string
+    required:
+    - password
+    - username
+    - verify_code
+    type: object
+  request.RoleAdd:
+    properties:
+      auth:
+        example:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 16
+        - 17
+        - 18
+        - 19
+        items:
+          type: integer
+        type: array
+      name:
+        description: 角色名
+        example: 程序员
+        type: string
+      pid:
+        description: 上级ID
+        example: 1
+        type: integer
+    required:
+    - auth
+    - name
+    type: object
+  request.RoleEdit:
+    properties:
+      auth:
+        example:
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+        - 9
+        - 10
+        - 11
+        - 12
+        - 13
+        - 14
+        - 15
+        - 16
+        - 17
+        - 18
+        - 19
+        items:
+          type: integer
+        type: array
+      name:
+        description: 角色名
+        example: 程序员
+        type: string
+      pid:
+        description: 上级ID
+        example: 1
+        type: integer
+    required:
+    - auth
+    - name
+    type: object
+  request.UserAdd:
+    properties:
+      password:
+        description: 密码
+        example: test
+        type: string
+      real_name:
+        description: 真实姓名
+        example: test
+        type: string
+      roles:
+        description: 所属角色
+        example:
+        - 1
+        - 2
+        items:
+          type: integer
+        type: array
+      status:
+        description: 状态
+        example: 1
+        type: integer
+      tel:
+        description: 电话号码
+        example: "13054174174"
+        type: string
+      user_name:
+        description: 账号
+        example: test
+        type: string
+    required:
+    - password
+    - real_name
+    - roles
+    - tel
+    - user_name
+    type: object
+  request.UserEdit:
+    properties:
+      password:
+        description: 密码（非必填）
+        example: test
+        type: string
+      real_name:
+        description: 真实姓名
+        example: test
+        type: string
+      roles:
+        description: 所属角色
+        example:
+        - 1
+        - 2
+        items:
+          type: integer
+        type: array
+      status:
+        description: 状态
+        example: 1
+        type: integer
+      tel:
+        description: 电话号码
+        example: "13054174174"
+        type: string
+      user_name:
+        description: 账号
+        example: test
+        type: string
+    required:
+    - real_name
+    - roles
+    - tel
+    - user_name
+    type: object
+  response.AdminUserList:
+    properties:
+      id:
+        type: integer
+      real_name:
+        description: 真实姓名
+        type: string
+      roles:
+        description: 角色信息
+        items:
+          $ref: '#/definitions/response.CasRole'
+        type: array
+      status:
+        description: 用户状态
+        type: integer
+      tel:
+        description: 手机号码
+        type: string
+      user_name:
+        description: 登录名
+        type: string
+    type: object
+  response.AdminUserPage:
+    properties:
+      current_page:
+        description: 每页显示多少条
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/response.AdminUserList'
+        type: array
+      per_page:
+        description: 当前页码
+        type: integer
+      total:
+        description: 总共多少页
+        type: integer
+    type: object
+  response.CasRole:
+    properties:
+      id:
+        description: 角色ID
+        type: integer
+      name:
+        description: 角色名
+        type: string
+    type: object
+  response.RoleList:
+    properties:
+      auth:
+        description: 所有权限arr
+        items:
+          type: integer
+        type: array
+      base_auth:
+        description: api权限
+        items:
+          type: integer
+        type: array
+      id:
+        type: integer
+      name:
+        description: 角色名
+        type: string
+      parent_name:
+        description: 上级角色名
+        type: string
+      pid:
+        description: 上级ID
+        type: integer
+    type: object
+  response.RolePage:
+    properties:
+      current_page:
+        description: 每页显示多少条
+        type: integer
+      data:
+        items:
+          $ref: '#/definitions/response.RoleList'
+        type: array
+      per_page:
+        description: 当前页码
+        type: integer
+      total:
+        description: 总共多少页
+        type: integer
+    type: object
+info:
+  contact: {}
+  license: {}
+  title: MasterJoy博客
+paths:
+  /adminUser:
+    get:
+      parameters:
+      - description: 姓名|手机
+        in: query
+        name: name
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页显示多少条
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AdminUserPage'
+      summary: 获取用户列表
+      tags:
+      - 后台用户
+    post:
+      parameters:
+      - description: 用户
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserAdd'
+          type: object
+      produces:
+      - application/json
+      summary: 添加用户
+      tags:
+      - 后台用户
+  /adminUser/{id}:
+    delete:
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      summary: 删除用户
+      tags:
+      - 后台用户
+    get:
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AdminUserList'
+      summary: 获取用户详情
+      tags:
+      - 后台用户
+    put:
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.UserEdit'
+          type: object
+      produces:
+      - application/json
+      summary: 编辑用户
+      tags:
+      - 后台用户
+  /auth/role:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.AdminUserPage'
+      summary: 获取角色树
+      tags:
+      - 后台用户
+  /auth/tree:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RolePage'
+      summary: 获取权限树
+      tags:
+      - 角色
+  /captcha:
+    get:
+      responses:
+        "200": {}
+      summary: 验证码
+      tags:
+      - 登录操作
+  /login:
+    post:
+      parameters:
+      - description: 用户
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.LoginUser'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      summary: 登录操作
+      tags:
+      - 登录操作
+  /role:
+    get:
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页显示多少条
+        in: query
+        name: pageSize
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RolePage'
+      summary: 获取所有角色
+      tags:
+      - 角色
+    post:
+      parameters:
+      - description: 角色
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.RoleAdd'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      summary: 添加角色
+      tags:
+      - 角色
+  /role/{id}:
+    delete:
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200": {}
+      summary: 删除角色
+      tags:
+      - 角色
+    get:
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/response.RoleList'
+      summary: 获取角色详情
+      tags:
+      - 角色
+    put:
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 角色
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/request.RoleEdit'
+          type: object
+      produces:
+      - application/json
+      summary: 编辑角色
+      tags:
+      - 角色
+swagger: "2.0"

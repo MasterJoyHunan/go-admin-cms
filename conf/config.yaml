@@ -1,0 +1,45 @@
+version: '3'
+
+# 系统配置
+application:
+  env: debug  # 合法选项 "" (默认为空 = debug ) "debug" "release" "test"
+  host: 0.0.0.0
+  port: 8088
+  public_path:
+
+# 数据库配置
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  user: root
+  pwd:
+  db: mj_blog
+  prefix:
+  max_idle: 10
+  max_active: 10
+
+# 日志配置
+log:
+  path:
+  level: info # 合法选项 "panic" "fatal" "error" "warn" "warning" "info" "debug" "trace"
+
+# rbac 权限配置
+casbin:
+  path:
+
+# 验证码配置
+captcha:
+  length: 4
+  width: 150
+  height: 50
+#  str: 234567890abcdefghjkmnpqrstuvwxyz
+  str: 1234567890
+  font:
+    - wqy-microhei.ttc
+  noise: 100
+  line: 3
+
+# json web token 配置
+jwt:
+  key: bfgdiojhnpbwfsfa23/*-/*-/sgdeasdg4sd6+0@%!
+  exp_time: 100 #小时

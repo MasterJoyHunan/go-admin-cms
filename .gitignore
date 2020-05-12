@@ -1,0 +1,7 @@
+.idea
+.DS_Store
+.vscode
+/upload/
+tmp/
+var/
+log
