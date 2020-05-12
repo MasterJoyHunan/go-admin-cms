@@ -17,6 +17,14 @@ func InitRouter() *gin.Engine {
 	// swagger 文档输出
 	r.GET("/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	// vue build 文件目录
+	r.LoadHTMLFiles("./dist/index.html")
+	r.GET("/", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
+	r.StaticFile("/favicon.ico", "./dist/favicon.ico")
+	r.Static("/static", "./dist/static")
+
 	// 加入通用中间件
 	r.Use(
 		middleware.MakeSession(), // session支持
