@@ -13,7 +13,10 @@ import (
 func Authentication() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
-		user, _ := c.Get("user")
+		user, hasUser := c.Get("user")
+		if !hasUser {
+			return
+		}
 		userInfo := user.(*util.Claims)
 		userIdStr := "user:" + strconv.Itoa(userInfo.Id)
 		e, err := casbin.InitCasbin()
