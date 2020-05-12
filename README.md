@@ -22,6 +22,15 @@
 * 命令模式
 
 该项目仅仅包含了最简单的 用户-角色-权限 管理系统，你可以在此基础上二次开发项目
+## 使用方法
+```bash
+go clone git@github.com:MasterJoyHunan/go-admin-cms.git
+cd go-admin-cms
+go run main.go
+```
+如果有需要，请修改 conf 文件夹下的配置文件
+## 其他教程
+[casbin 在其项目的使用](https://github.com/MasterJoyHunan/casbin-demo)
 ## 在线体验 
 [goadmin.masterjoy.top](http://goadmin.masterjoy.top)
 
