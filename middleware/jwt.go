@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"blog/pkg/setting"
 	"blog/pkg/util"
 	"errors"
 	"github.com/gin-gonic/gin"
@@ -15,7 +14,7 @@ func JWT() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token, err := getToken(c)
 		if err != nil {
-			c.AbortWithStatusJSON(http.StatusUnauthorized,  gin.H{
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
 				"code": 0,
 				"data": "",
 				"msg":  JwtName + "不存在",
@@ -53,14 +52,8 @@ func getToken(c *gin.Context) (string, error) {
 		return token, nil
 	}
 
-	// dev 开发模式下, 简单的从 cookie 中获取
-	if setting.ApplicationConf.Env == "debug" {
-		if token, _ := c.Cookie(JwtName); token != "" {
-			return token, nil
-		}
+	if token, _ := c.Cookie(JwtName); token != "" {
+		return token, nil
 	}
 	return "", errors.New("没有找到" + JwtName)
 }
-
-
-

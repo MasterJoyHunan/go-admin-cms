@@ -36,7 +36,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie(middleware.JwtName, token, setting.JwtConf.ExpTime*3600, "/", "localhost", false, true)
+	c.SetCookie(middleware.JwtName, token, setting.JwtConf.ExpTime*3600, "/", setting.ApplicationConf.Doamin, false, true)
 	response.SuccessData(token)
 }
 

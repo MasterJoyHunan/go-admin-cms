@@ -5,6 +5,7 @@ type Application struct {
 	Env        string
 	Host       string
 	Port       int
+	Doamin     string
 	PublicPath string `mapstructure:"public_path"`
 }
 

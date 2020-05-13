@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"blog/pkg/setting"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 )
@@ -14,7 +15,7 @@ func MakeSession() gin.HandlerFunc {
 		sessionId, _ := c.Cookie(SessionIdName)
 		if sessionId == "" {
 			sessionId = uuid.NewV4().String()
-			c.SetCookie(SessionIdName, sessionId, 0, "/", "localhost", false, true)
+			c.SetCookie(SessionIdName, sessionId, 0, "/", setting.ApplicationConf.Doamin, false, true)
 		}
 		c.Set("session_id", sessionId)
 		c.Next()

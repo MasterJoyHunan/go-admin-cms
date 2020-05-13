@@ -6,6 +6,7 @@ application:
   host: 0.0.0.0
   port: 8088
   public_path:
+  doamin: localhost # 设置 set-cookie httpOnly=true 使用，能有效防止 csrf 攻击
 
 # 数据库配置
 mysql:
