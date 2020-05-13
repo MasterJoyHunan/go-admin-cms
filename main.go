@@ -6,10 +6,13 @@ import (
 	"blog/pkg/logger"
 	"blog/pkg/setting"
 	"blog/routers"
+	"flag"
 	"fmt"
 )
 
 func main() {
+	flag.Parse()
+
 	// 初始化操作 (因为 init 方法无法保证我们想要的顺序)
 	setting.Setup()
 	logger.Setup()

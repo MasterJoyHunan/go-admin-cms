@@ -34,7 +34,11 @@ func Setup() {
 	Db.DB().SetMaxIdleConns(setting.MysqlConf.MaxIdle)
 	Db.DB().SetMaxOpenConns(setting.MysqlConf.MaxActive)
 	AutoMigrate()
-	InitSql()
+
+	// 设置程序启动参数 -init | -init=true
+	if setting.Init {
+		InitSql()
+	}
 }
 
 // 自动创建修改表
