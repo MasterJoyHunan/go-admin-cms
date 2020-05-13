@@ -2,12 +2,26 @@ package middleware
 
 import (
 	"blog/pkg/logger"
+	"blog/pkg/setting"
 	"github.com/gin-gonic/gin"
 	"time"
 )
 
 func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
+
+		// TODO 实际上线请修改这里
+		if setting.ApplicationConf.Env == "release" {
+			if c.Request.Method != "GET" {
+				c.AbortWithStatusJSON(200, gin.H{
+					"code": 0,
+					"data": "",
+					"msg":  "仅供演示,请勿操作",
+				})
+				return
+			}
+		}
+
 		// 开始时间
 		startTime := time.Now()
 

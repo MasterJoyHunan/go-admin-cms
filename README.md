@@ -28,11 +28,16 @@ go clone git@github.com:MasterJoyHunan/go-admin-cms.git
 cd go-admin-cms
 go run main.go
 ```
+### 应用部署
+1. 安装 `supervisor`
+2. 启用 `nginx` 反向代理
+3. ......
+
 如果有需要，请修改 conf 文件夹下的配置文件
 ## 其他教程
-[go 编写的通用后台](https://github.com/MasterJoyHunan/go-admin-cms)
-[vue 编写的通用后台界面](https://github.com/MasterJoyHunan/go-admin-vue)
-[casbin 在其项目的使用](https://github.com/MasterJoyHunan/casbin-demo)
+* [go 编写的通用后台](https://github.com/MasterJoyHunan/go-admin-cms)
+* [vue 编写的通用后台界面](https://github.com/MasterJoyHunan/go-admin-vue)
+* [casbin 在其项目的使用](https://github.com/MasterJoyHunan/casbin-demo)
 
 ## 在线体验 
 [goadmin.masterjoy.top](http://goadmin.masterjoy.top)
