@@ -18,6 +18,8 @@ func InitRouter() *gin.Engine {
 	r.GET("/api/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// vue build 文件目录
+	// 注意，这不是主流的做法，主流的做法是前后端分离，各自部署，后端接受跨域请求
+	// 这里这样做的原因是，希望减少服务器部署的麻烦，
 	r.LoadHTMLFiles("./dist/index.html")
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
