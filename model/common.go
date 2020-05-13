@@ -43,10 +43,10 @@ func Setup() {
 
 // 自动创建修改表
 func AutoMigrate() {
-	Db.Set("gorm:table_options", "ENGINE=InnoDB COMMENT '后台用户'").AutoMigrate(&AdminUser{})
-	Db.Set("gorm:table_options", "ENGINE=InnoDB COMMENT '角色'").AutoMigrate(&Role{})
-	Db.Set("gorm:table_options", "ENGINE=InnoDB COMMENT '权限'").AutoMigrate(&Auth{})
-	Db.Set("gorm:table_options", "ENGINE=InnoDB COMMENT 'casbin policy 配置'").AutoMigrate(&CasbinRule{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '后台用户'").AutoMigrate(&AdminUser{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '角色'").AutoMigrate(&Role{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '权限'").AutoMigrate(&Auth{})
+	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT 'casbin policy 配置'").AutoMigrate(&CasbinRule{})
 }
 
 func InitSql() {

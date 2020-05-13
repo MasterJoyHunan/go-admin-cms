@@ -11,10 +11,6 @@ var (
 	LogConf           = Log{}
 	CasbinConf        = Casbin{}
 	JwtConf           = Jwt{}
-	ImageUploadConf   = ImageUpload{}
-	RedisConf         = Redis{}
-	QrcodeConf        = Qrcode{}
-	ElasticSearchConf = ElasticSearch{}
 	CaptchaConf       = Captcha{}
 )
 
@@ -42,22 +38,6 @@ func Setup() {
 
 	if err := viper.UnmarshalKey("jwt", &JwtConf); err != nil {
 		log.Panic("jwt配置文件格式错误", err)
-	}
-
-	if err := viper.UnmarshalKey("image_upload", &ImageUploadConf); err != nil {
-		log.Panic("image_upload配置文件格式错误", err)
-	}
-
-	if err := viper.UnmarshalKey("redis", &RedisConf); err != nil {
-		log.Panic("redis配置文件格式错误", err)
-	}
-
-	if err := viper.UnmarshalKey("qrcode", &QrcodeConf); err != nil {
-		log.Panic("qrcode配置文件格式错误", err)
-	}
-
-	if err := viper.UnmarshalKey("elastic_search", &ElasticSearchConf); err != nil {
-		log.Panic("elastic_search配置文件格式错误", err)
 	}
 
 	if err := viper.UnmarshalKey("captcha", &CaptchaConf); err != nil {
