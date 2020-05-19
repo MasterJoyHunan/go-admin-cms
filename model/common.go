@@ -41,6 +41,22 @@ func Setup() {
 	}
 }
 
+// 设置条件
+func MultiWhere(where ...interface{}) func(*gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where(where[0], where[1:]...)
+	}
+}
+
+
+// 设置条件
+func MultiOr(where ...interface{}) func(*gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Or(where[0], where[1:]...)
+	}
+}
+
+
 // 自动创建修改表
 func AutoMigrate() {
 	Db.Set("gorm:table_options", "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT '后台用户'").AutoMigrate(&AdminUser{})

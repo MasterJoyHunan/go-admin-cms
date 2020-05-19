@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "MasterJoy博客",
+        "title": "go-admin-cms",
         "contact": {},
         "license": {}
     },

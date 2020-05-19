@@ -3,6 +3,7 @@ package model
 import (
 	"blog/model/response"
 	"blog/pkg/logger"
+	"github.com/jinzhu/gorm"
 	"strconv"
 	"strings"
 )
@@ -17,22 +18,20 @@ type AdminUser struct {
 }
 
 // 获取所有后台用户
-func (u *AdminUser) GetAll(page, pageSize int, where ...interface{}) (response.AdminUserPage, error) {
-	all := response.AdminUserPage{
-		Total:       u.GetCount(where...),
+func (u *AdminUser) GetAll(page, pageSize int, where []func(*gorm.DB)*gorm.DB) (all response.AdminUserPage, err error) {
+	all = response.AdminUserPage{
+		Total:       u.GetCount(where),
 		PerPage:     pageSize,
 		CurrentPage: page,
 		Data:        []response.AdminUserList{},
 	}
 	offset := GetOffset(page, pageSize)
-	err := Db.Table("admin_user").
+	err = Db.Scopes(where...).
+		Table("admin_user").
 		Limit(pageSize).
 		Offset(offset).
-		Find(&all.Data, where...).Error
-	if err != nil {
-		return response.AdminUserPage{}, err
-	}
-	return all, err
+		Find(&all.Data).Error
+	return
 }
 
 // 根据ID获取用户详情
@@ -129,12 +128,10 @@ func GetUserByWhere(where ...interface{}) (au AdminUser) {
 }
 
 // 获取所有后台用户数量
-func (u *AdminUser) GetCount(where ...interface{}) (count int) {
-	if len(where) == 0 {
-		Db.Model(&u).Count(&count)
-		return
-	}
-	Db.Model(&u).Where(where[0], where[1:]...).Count(&count)
+func (u *AdminUser) GetCount(where []func(*gorm.DB)*gorm.DB) (count int) {
+	Db.Scopes(where...).
+		Model(&u).
+		Count(&count)
 	return
 }
 

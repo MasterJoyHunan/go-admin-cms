@@ -8,6 +8,7 @@ import (
 	"blog/pkg/casbin"
 	"blog/pkg/logger"
 	"blog/pkg/util"
+	"github.com/jinzhu/gorm"
 	"github.com/mojocn/base64Captcha"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -33,11 +34,11 @@ func Login(user *request.LoginUser, id string) (string, error) {
 // 用户列表
 func UserList(name string, page, pageSize int) (res response.AdminUserPage, err error) {
 	adminUser := model.AdminUser{}
-	if name == "" {
-		res, err = adminUser.GetAll(page, pageSize)
-	} else {
-		res, err = adminUser.GetAll(page, pageSize, "user_name like ? or tel like ?", "%"+name+"%", "%"+name+"%")
+	var where []func(*gorm.DB) *gorm.DB
+	if name != "" {
+		where = append(where, model.MultiWhere("user_name like ? or tel like ?", "%"+name+"%", "%"+name+"%"))
 	}
+	res, err = adminUser.GetAll(page, pageSize, where)
 	if err != nil {
 		return
 	}
