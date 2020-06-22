@@ -8,14 +8,13 @@ import (
 	"blog/pkg/casbin"
 	"blog/pkg/logger"
 	"blog/pkg/util"
-	"github.com/jinzhu/gorm"
 	"github.com/mojocn/base64Captcha"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // 登录逻辑
 func Login(user *request.LoginUser, id string) (string, error) {
-	if ! base64Captcha.DefaultMemStore.Verify(id, user.VerifyCode, false) {
+	if ! base64Captcha.DefaultMemStore.Verify(id, user.VerifyCode, true) {
 		return "", myerr.NewNormalValidateError("验证码错误")
 	}
 	adminUser := model.GetUserByWhere("user_name = ?", user.Username)
@@ -34,11 +33,11 @@ func Login(user *request.LoginUser, id string) (string, error) {
 // 用户列表
 func UserList(name string, page, pageSize int) (res response.AdminUserPage, err error) {
 	adminUser := model.AdminUser{}
-	var where []func(*gorm.DB) *gorm.DB
-	if name != "" {
-		where = append(where, model.MultiWhere("user_name like ? or tel like ?", "%"+name+"%", "%"+name+"%"))
+	if name == "" {
+		res, err = adminUser.GetAll(page, pageSize)
+	} else {
+		res, err = adminUser.GetAll(page, pageSize, "user_name like ? or tel like ?", "%"+name+"%", "%"+name+"%")
 	}
-	res, err = adminUser.GetAll(page, pageSize, where)
 	if err != nil {
 		return
 	}
