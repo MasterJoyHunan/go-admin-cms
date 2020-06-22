@@ -4,27 +4,22 @@ go 1.13
 
 require (
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
-	github.com/astaxie/beego v1.12.0
 	github.com/casbin/casbin/v2 v2.2.2
 	github.com/casbin/gorm-adapter/v2 v2.0.3
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/fortytw2/leaktest v1.3.0 // indirect
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-openapi/spec v0.19.7 // indirect
 	github.com/go-openapi/swag v0.19.9 // indirect
 	github.com/go-playground/locales v0.13.0
 	github.com/go-playground/universal-translator v0.17.0
-	github.com/gomodule/redigo v2.0.0+incompatible
 	github.com/jinzhu/gorm v1.9.11
 	github.com/leodido/go-urn v1.2.0 // indirect
 	github.com/mailru/easyjson v0.7.1 // indirect
 	github.com/mattn/go-isatty v0.0.11 // indirect
 	github.com/mojocn/base64Captcha v1.3.1
-	github.com/olivere/elastic v6.2.26+incompatible
 	github.com/robfig/cron v1.2.0
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.2.0
-	github.com/skip2/go-qrcode v0.0.0-20191027152451-9434209cb086
 	github.com/spf13/viper v1.6.3
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.5
