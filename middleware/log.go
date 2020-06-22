@@ -13,7 +13,7 @@ func Logger() gin.HandlerFunc {
 
 		// TODO 实际上线请修改这里
 		if setting.ApplicationConf.Env == "release" {
-			if c.Request.Method != "GET" && strings.Index(c.FullPath(), "login") != -1 {
+			if c.Request.Method != "GET" && strings.Index(c.FullPath(), "login") == -1 {
 				c.AbortWithStatusJSON(200, gin.H{
 					"code": 0,
 					"data": "",
