@@ -27,15 +27,8 @@ var JwtKey = []byte(setting.JwtConf.Key)
 func MakeToken(adminUser model.AdminUser) (string, error) {
 	// 过期时间
 	expTime := time.Now().Add(time.Duration(setting.JwtConf.ExpTime) * time.Hour)
-	// 所属角色
-	role := model.GetUserRole(adminUser.Id)
-	// 所有权限
-	auth := model.GetUserAuth(adminUser.Id)
-
 	tokenClaim := jwt.NewWithClaims(jwt.SigningMethodHS256, Claims{
 		Username: adminUser.UserName,
-		Role:     role,
-		Auth:     auth,
 		Id:       adminUser.Id,
 		RealName: adminUser.RealName,
 		Tel:      adminUser.Tel,

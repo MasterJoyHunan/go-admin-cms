@@ -32,8 +32,9 @@ func InitRouter() *gin.Engine {
 	r.POST("/login", controller.Login)
 
 	// 加入鉴权中间件
-	r.Use(middleware.JWT(), middleware.Authentication())
-
+	r.Use(middleware.JWT())
+	r.GET("/userInfo", controller.UserInfo)
+	r.Use(middleware.Authentication())
 	// 用户
 	{
 		r.GET("/auth/role", controller.RoleTree)

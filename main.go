@@ -1,4 +1,4 @@
-// @title MasterJoy博客
+// @title go-admin-cms
 package main
 
 import (

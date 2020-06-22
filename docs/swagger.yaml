@@ -257,7 +257,7 @@ definitions:
 info:
   contact: {}
   license: {}
-  title: MasterJoy博客
+  title: go-admin-cms
 paths:
   /adminUser:
     get:

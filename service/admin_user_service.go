@@ -14,7 +14,7 @@ import (
 
 // 登录逻辑
 func Login(user *request.LoginUser, id string) (string, error) {
-	if ! base64Captcha.DefaultMemStore.Verify(id, user.VerifyCode, false) {
+	if ! base64Captcha.DefaultMemStore.Verify(id, user.VerifyCode, true) {
 		return "", myerr.NewNormalValidateError("验证码错误")
 	}
 	adminUser := model.GetUserByWhere("user_name = ?", user.Username)
