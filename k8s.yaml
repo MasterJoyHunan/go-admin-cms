@@ -1,0 +1,195 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-admin-cms-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |+
+      rewrite ^/api/(.*)$ /$1 break;
+spec:
+  rules:
+    - host: testtuchuang.top
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: go-admin-cms-nginx
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: "/api"
+            backend:
+              service:
+                name: go-admin-cms-api
+                port:
+                  number: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-admin-cms-nginx
+spec:
+  selector:
+    app: go-admin-cms-nginx
+  ports:
+    - port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: go-admin-cms-api
+spec:
+  selector:
+    app: go-admin-cms-api
+  ports:
+    - port: 8080
+      targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: go-admin-cms-nginx-config
+data:
+  defalut.conf: |+
+    server {
+        listen 80;
+        server_name testtuchuang.top;
+        index index.html;
+        root /data;
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-admin-cms-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-admin-cms-nginx
+  template:
+    metadata:
+      name: go-admin-cms-nginx
+      labels:
+        app: go-admin-cms-nginx
+    spec:
+      containers:
+        - name: go-admin-cms-nginx
+          image: registry.cn-hangzhou.aliyuncs.com/tanwuyang/go-admin-cms-home:v2021_05_13_09_03
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/
+              name: nginx-config
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: go-admin-cms-nginx-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: go-admin-api-config
+data:
+  config.yaml: |+
+    version: '3'
+
+    # 系统配置
+    application:
+      env: debug  # 合法选项 "" (默认为空 = debug ) "debug" "release" "test"
+      host: 0.0.0.0
+      port: 8080
+      public_path:
+      doamin: testtuchuang.top # 设置 set-cookie httpOnly=true 使用，能有效防止 csrf 攻击
+
+    # 数据库配置
+    mysql:
+      host: base-service-endpoint
+      port: 3306
+      user: root
+      pwd: 123456
+      db: mj_blog
+      prefix:
+      max_idle: 10
+      max_active: 10
+
+    #redis配置
+    redis:
+      host: base-service-endpoint
+      port: 6379
+      username:
+      password:
+      db: 0
+      pool_size: 6
+
+    # 日志配置
+    log:
+      path:
+      level: info # 合法选项 "panic" "fatal" "error" "warn" "warning" "info" "debug" "trace"
+
+    # rbac 权限配置
+    casbin:
+      path:
+
+    # 验证码配置
+    captcha:
+      length: 4
+      width: 150
+      height: 50
+    #  str: 234567890abcdefghjkmnpqrstuvwxyz
+      str: 1234567890
+      font:
+        - wqy-microhei.ttc
+      noise: 100
+      line: 3
+
+    # json web token 配置
+    jwt:
+      key: bfgdiojhnpbwfsfa23/*-/*-/sgdeasdg4sd6+0@%!
+      exp_time: 100 #小时
+
+  rbac_model.conf: |+
+    [request_definition]
+    r = sub, obj, act
+
+    [policy_definition]
+    p = sub, obj, act
+
+    [role_definition]
+    g = _, _
+
+    [policy_effect]
+    e = some(where (p.eft == allow))
+
+    [matchers]
+    m = g(r.sub, p.sub) && keyMatch2(r.obj, p.obj) && r.act == p.act
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-admin-cms-api
+spec:
+  selector:
+    matchLabels:
+      app: go-admin-cms-api
+  template:
+    metadata:
+      name: go-admin-cms-api
+      labels:
+        app: go-admin-cms-api
+    spec:
+      containers:
+        - name: go-admin-cms
+          image: registry.cn-hangzhou.aliyuncs.com/tanwuyang/go-admin-cms-admin:v2021_05_12_17_47
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /application/conf/
+              name: api-config
+      volumes:
+        - name: api-config
+          configMap:
+            name: go-admin-api-config
