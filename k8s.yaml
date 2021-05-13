@@ -7,7 +7,7 @@ metadata:
       rewrite ^/api/(.*)$ /$1 break;
 spec:
   rules:
-    - host: testtuchuang.top
+    - host: goadmin.masterjoy.top
       http:
         paths:
           - pathType: Prefix
@@ -56,7 +56,7 @@ data:
   defalut.conf: |+
     server {
         listen 80;
-        server_name testtuchuang.top;
+        server_name goadmin.masterjoy.top;
         index index.html;
         root /data;
     }
@@ -76,6 +76,8 @@ spec:
       labels:
         app: go-admin-cms-nginx
     spec:
+      imagePullSecrets:
+        - name: private-docker
       containers:
         - name: go-admin-cms-nginx
           image: registry.cn-hangzhou.aliyuncs.com/tanwuyang/go-admin-cms-home:v2021_05_13_09_03
@@ -181,6 +183,8 @@ spec:
       labels:
         app: go-admin-cms-api
     spec:
+      imagePullSecrets:
+        - name: private-docker
       containers:
         - name: go-admin-cms
           image: registry.cn-hangzhou.aliyuncs.com/tanwuyang/go-admin-cms-admin:v2021_05_12_17_47
