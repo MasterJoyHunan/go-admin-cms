@@ -23,9 +23,8 @@ require (
 	github.com/spf13/viper v1.6.3
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.5
-	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
-	golang.org/x/net v0.0.0-20200501053045-e0ff5e5a1de5 // indirect
-	golang.org/x/tools v0.0.0-20200501065659-ab2804fb9c9d // indirect
+	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
+	golang.org/x/net v0.7.0 // indirect
 	gopkg.in/go-playground/validator.v9 v9.30.2
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
